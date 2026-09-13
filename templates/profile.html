@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile - JobPortal</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            background: #1e3a8a;
+            color: white;
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            font-size: 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 9px 13px;
+            border-radius: 6px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .logout {
+            background: #dc2626;
+        }
+
+        /* CONTAINER */
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 40px auto;
+        }
+
+        /* CARD */
+
+        .profile-card {
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .profile-header {
+            margin-bottom: 30px;
+        }
+
+        .profile-header h1 {
+            color: #1e3a8a;
+            margin-bottom: 8px;
+        }
+
+        .profile-header p {
+            color: #666;
+        }
+
+        /* ACCOUNT INFO */
+
+        .account-info {
+            background: #f8fafc;
+
+            padding: 18px;
+
+            border-radius: 8px;
+
+            margin-bottom: 25px;
+        }
+
+        .account-info p {
+            margin-bottom: 7px;
+            color: #555;
+        }
+
+        .account-info p:last-child {
+            margin-bottom: 0;
+        }
+
+        .account-info strong {
+            color: #1e3a8a;
+        }
+
+        /* FORM */
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        input,
+        textarea {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus {
+
+            border-color: #2563eb;
+
+        }
+
+        textarea {
+
+            min-height: 120px;
+
+            resize: vertical;
+
+        }
+
+        .help-text {
+
+            display: block;
+
+            color: #777;
+
+            font-size: 13px;
+
+            margin-top: 6px;
+
+        }
+
+        /* RESUME */
+
+        .resume-box {
+
+            background: #f8fafc;
+
+            border: 1px dashed #cbd5e1;
+
+            padding: 20px;
+
+            border-radius: 8px;
+
+        }
+
+        .resume-box p {
+
+            color: #555;
+
+            margin-bottom: 12px;
+
+        }
+
+        .resume-box input {
+
+            background: white;
+
+        }
+
+        .resume-link {
+
+            display: inline-block;
+
+            margin-top: 12px;
+
+            color: #2563eb;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+        }
+
+        .resume-link:hover {
+
+            text-decoration: underline;
+
+        }
+
+        /* BUTTONS */
+
+        .buttons {
+
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 28px;
+
+        }
+
+        button {
+
+            border: none;
+
+            padding: 13px 25px;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+        .update-btn {
+
+            background: #2563eb;
+
+            color: white;
+
+        }
+
+        .update-btn:hover {
+
+            background: #1d4ed8;
+
+        }
+
+        .cancel-btn {
+
+            background: #e5e7eb;
+
+            color: #222;
+
+            text-decoration: none;
+
+            padding: 13px 25px;
+
+            border-radius: 7px;
+
+        }
+
+        .cancel-btn:hover {
+
+            background: #d1d5db;
+
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+
+                flex-direction: column;
+
+                gap: 15px;
+
+                padding: 18px 20px;
+
+            }
+
+            .nav-links {
+
+                flex-wrap: wrap;
+
+                justify-content: center;
+
+            }
+
+            .container {
+
+                width: 94%;
+
+            }
+
+            .profile-card {
+
+                padding: 25px 20px;
+
+            }
+
+            .buttons {
+
+                flex-direction: column;
+
+            }
+
+            button,
+            .cancel-btn {
+
+                text-align: center;
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+    <h2>JobPortal</h2>
+
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('index') }}">
+            Jobs
+        </a>
+
+        <a href="{{ url_for('applications') }}">
+            Applications
+        </a>
+
+        <a href="{{ url_for('logout') }}"
+           class="logout">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+    <div class="profile-card">
+
+
+        <!-- HEADER -->
+
+        <div class="profile-header">
+
+            <h1>
+                My Profile
+            </h1>
+
+            <p>
+                Manage your personal information, skills and resume.
+            </p>
+
+        </div>
+
+
+        <!-- ACCOUNT INFO -->
+
+        <div class="account-info">
+
+            <p>
+                <strong>Name:</strong>
+                {{ session["full_name"] }}
+            </p>
+
+            <p>
+                <strong>Email:</strong>
+                {{ session["email"] }}
+            </p>
+
+            <p>
+                <strong>Role:</strong>
+                Job Seeker
+            </p>
+
+        </div>
+
+
+        <!-- PROFILE FORM -->
+
+        <form
+            method="POST"
+            enctype="multipart/form-data">
+
+
+            <!-- PHONE -->
+
+            <div class="form-group">
+
+                <label for="phone">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value="{{ profile.phone if profile else '' }}"
+                    placeholder="Enter your phone number"
+                    maxlength="20"
+                >
+
+            </div>
+
+
+            <!-- SKILLS -->
+
+            <div class="form-group">
+
+                <label for="skills">
+                    Skills
+                </label>
+
+                <input
+                    type="text"
+                    id="skills"
+                    name="skills"
+                    value="{{ profile.skills if profile else '' }}"
+                    placeholder="Example: Python, SQL, Java, HTML, CSS"
+                >
+
+                <span class="help-text">
+                    Separate multiple skills with commas.
+                </span>
+
+            </div>
+
+
+            <!-- EDUCATION -->
+
+            <div class="form-group">
+
+                <label for="education">
+                    Education
+                </label>
+
+                <textarea
+                    id="education"
+                    name="education"
+                    placeholder="Example: B.Tech - Computer Science - 74%"
+                >{{ profile.education if profile else '' }}</textarea>
+
+            </div>
+
+
+            <!-- RESUME -->
+
+            <div class="form-group">
+
+                <label>
+                    Resume
+                </label>
+
+
+                <div class="resume-box">
+
+                    {% if profile and profile.resume %}
+
+                        <p>
+                            Current Resume:
+                            <strong>
+                                {{ profile.resume }}
+                            </strong>
+                        </p>
+
+
+                        <a
+                            href="{{ url_for('view_resume', user_id=session['user_id'], filename=profile.resume) }}"
+                            target="_blank"
+                            class="resume-link">
+
+                            📄 View Current Resume
+
+                        </a>
+
+                    {% else %}
+
+                        <p>
+                            No resume uploaded yet.
+                        </p>
+
+                    {% endif %}
+
+
+                    <input
+                        type="file"
+                        name="resume"
+                        accept=".pdf,.doc,.docx"
+                    >
+
+
+                    <span class="help-text">
+
+                        Allowed formats: PDF, DOC, DOCX.
+                        Maximum size: 5 MB.
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="buttons">
+
+                <button
+                    type="submit"
+                    class="update-btn">
+
+                    Update Profile
+
+                </button>
+
+
+                <a
+                    href="{{ url_for('dashboard') }}"
+                    class="cancel-btn">
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

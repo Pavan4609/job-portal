@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}JobPortal{% endblock %}</title>
+
+    <style>
+
+        .flash-container {
+            position: fixed;
+            top: 85px;
+            right: 25px;
+            z-index: 9999;
+            width: 350px;
+        }
+
+        .flash {
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+            animation: slideIn 0.3s ease;
+        }
+
+        .flash-success {
+            background: #dcfce7;
+            color: #166534;
+            border-left: 4px solid #22c55e;
+        }
+
+        .flash-danger {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+
+        .flash-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .flash-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-left: 4px solid #3b82f6;
+        }
+
+        @keyframes slideIn {
+
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .flash-container {
+                width: calc(100% - 30px);
+                right: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- FLASH MESSAGES -->
+
+    <div class="flash-container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="flash flash-{{ category }}">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+    </div>
+
+
+    {% block content %}
+
+    {% endblock %}
+
+
+    <script>
+
+        setTimeout(function() {
+
+            const messages =
+                document.querySelectorAll(".flash");
+
+            messages.forEach(function(message) {
+
+                message.style.opacity = "0";
+
+                message.style.transform =
+                    "translateX(100%)";
+
+                message.style.transition =
+                    "0.4s ease";
+
+                setTimeout(function() {
+
+                    message.remove();
+
+                }, 400);
+
+            });
+
+        }, 4000);
+
+    </script>
+
+</body>
+
+</html>

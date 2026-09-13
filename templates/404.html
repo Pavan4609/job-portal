@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Page Not Found - JobPortal</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f4f7fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 650px;
+            text-align: center;
+            background: white;
+            padding: 55px 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 35px;
+        }
+
+        .logo span {
+            color: #2563eb;
+        }
+
+        .error-code {
+            font-size: 90px;
+            font-weight: bold;
+            color: #2563eb;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: #6b7280;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .home-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .home-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .login-btn {
+            background: #eef2ff;
+            color: #2563eb;
+        }
+
+        .login-btn:hover {
+            background: #e0e7ff;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 40px 25px;
+            }
+
+            .error-code {
+                font-size: 70px;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">
+            Job<span>Portal</span>
+        </div>
+
+        <div class="error-code">
+            404
+        </div>
+
+        <h1>
+            Page Not Found
+        </h1>
+
+        <p>
+            Sorry, the page you are looking for does not exist
+            or may have been moved.
+        </p>
+
+        <div class="buttons">
+
+            <a href="{{ url_for('index') }}"
+               class="btn home-btn">
+                Back to Home
+            </a>
+
+            <a href="{{ url_for('login') }}"
+               class="btn login-btn">
+                Login
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

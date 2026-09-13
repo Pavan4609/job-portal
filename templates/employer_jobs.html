@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Jobs - JobPortal</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f7fb;
+
+            color: #1f2937;
+        }
+
+
+        /* =================================================
+           NAVBAR
+           ================================================= */
+
+        nav {
+
+            background: #111827;
+
+            padding: 16px 8%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+
+        .logo {
+
+            color: white;
+
+            font-size: 24px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            gap: 25px;
+
+            align-items: center;
+        }
+
+
+        .nav-links a {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 15px;
+        }
+
+
+        .nav-links a:hover {
+
+            color: #60a5fa;
+        }
+
+
+        /* =================================================
+           MAIN CONTAINER
+           ================================================= */
+
+        .container {
+
+            width: 90%;
+
+            max-width: 1150px;
+
+            margin: 45px auto;
+        }
+
+
+        /* =================================================
+           HEADER
+           ================================================= */
+
+        .header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 30px;
+        }
+
+
+        .header h1 {
+
+            margin: 0 0 8px;
+
+            font-size: 32px;
+        }
+
+
+        .header p {
+
+            margin: 0;
+
+            color: #6b7280;
+        }
+
+
+        .post-button {
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 12px 18px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+
+        .post-button:hover {
+
+            background: #1d4ed8;
+        }
+
+
+        /* =================================================
+           JOB GRID
+           ================================================= */
+
+        .jobs-container {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(330px, 1fr));
+
+            gap: 25px;
+        }
+
+
+        /* =================================================
+           JOB CARD
+           ================================================= */
+
+        .job-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.08);
+
+            transition: 0.2s;
+        }
+
+
+        .job-card:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+
+        .job-title {
+
+            color: #1e3a8a;
+
+            font-size: 23px;
+
+            font-weight: bold;
+
+            margin-bottom: 16px;
+        }
+
+
+        .job-info {
+
+            margin-bottom: 10px;
+
+            color: #4b5563;
+
+            line-height: 1.5;
+        }
+
+
+        .job-info strong {
+
+            color: #111827;
+        }
+
+
+        .description {
+
+            margin-top: 16px;
+
+            color: #4b5563;
+
+            line-height: 1.6;
+
+            word-wrap: break-word;
+        }
+
+
+        /* =================================================
+           APPLICANT COUNT
+           ================================================= */
+
+        .applicant-count {
+
+            margin-top: 20px;
+
+            padding: 13px;
+
+            background: #eff6ff;
+
+            color: #1d4ed8;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            text-align: center;
+        }
+
+
+        /* =================================================
+           ACTIONS
+           ================================================= */
+
+        .actions {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+
+        .edit-button,
+        .application-button,
+        .delete-button {
+
+            width: 100%;
+
+            padding: 11px;
+
+            border-radius: 7px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            border: none;
+
+            cursor: pointer;
+
+            font-size: 14px;
+        }
+
+
+        .edit-button {
+
+            background: #2563eb;
+
+            color: white;
+        }
+
+
+        .edit-button:hover {
+
+            background: #1d4ed8;
+        }
+
+
+        .application-button {
+
+            background: #059669;
+
+            color: white;
+        }
+
+
+        .application-button:hover {
+
+            background: #047857;
+        }
+
+
+        .delete-form {
+
+            grid-column: 1 / -1;
+        }
+
+
+        .delete-button {
+
+            background: #dc2626;
+
+            color: white;
+        }
+
+
+        .delete-button:hover {
+
+            background: #b91c1c;
+        }
+
+
+        /* =================================================
+           NO JOBS
+           ================================================= */
+
+        .no-jobs {
+
+            background: white;
+
+            padding: 55px;
+
+            text-align: center;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+
+        .no-jobs h2 {
+
+            margin-bottom: 10px;
+        }
+
+
+        .no-jobs p {
+
+            color: #6b7280;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =================================================
+           RESPONSIVE
+           ================================================= */
+
+        @media (max-width: 700px) {
+
+            nav {
+
+                flex-direction: column;
+
+                gap: 15px;
+
+                padding: 15px 5%;
+            }
+
+
+            .nav-links {
+
+                flex-wrap: wrap;
+
+                justify-content: center;
+
+                gap: 15px;
+            }
+
+
+            .container {
+
+                width: 94%;
+
+                margin: 30px auto;
+            }
+
+
+            .header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 18px;
+            }
+
+
+            .header h1 {
+
+                font-size: 28px;
+            }
+
+
+            .jobs-container {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =================================================
+         NAVBAR
+         ================================================= -->
+
+    <nav>
+
+
+        <a href="/" class="logo">
+
+            JobPortal
+
+        </a>
+
+
+        <div class="nav-links">
+
+
+            <a href="/">
+
+                Home
+
+            </a>
+
+
+            <a href="/employer">
+
+                Dashboard
+
+            </a>
+
+
+            <a href="/employer/applications">
+
+                Applications
+
+            </a>
+
+
+            <a href="/logout">
+
+                Logout
+
+            </a>
+
+
+        </div>
+
+
+    </nav>
+
+
+    <!-- =================================================
+         MAIN
+         ================================================= -->
+
+    <div class="container">
+
+
+        <!-- =================================================
+             HEADER
+             ================================================= -->
+
+        <div class="header">
+
+
+            <div>
+
+                <h1>
+
+                    My Jobs
+
+                </h1>
+
+
+                <p>
+
+                    Manage your job postings and applicants.
+
+                </p>
+
+            </div>
+
+
+            <a
+                href="/employer#post-job"
+                class="post-button"
+            >
+
+                + Post New Job
+
+            </a>
+
+
+        </div>
+
+
+        <!-- =================================================
+             JOBS
+             ================================================= -->
+
+        {% if jobs %}
+
+
+            <div class="jobs-container">
+
+
+                {% for job in jobs %}
+
+
+                    <div class="job-card">
+
+
+                        <!-- JOB TITLE -->
+
+                        <div class="job-title">
+
+                            {{ job.title }}
+
+                        </div>
+
+
+                        <!-- COMPANY -->
+
+                        <div class="job-info">
+
+                            <strong>
+
+                                🏢 Company:
+
+                            </strong>
+
+                            {{ job.company }}
+
+                        </div>
+
+
+                        <!-- LOCATION -->
+
+                        <div class="job-info">
+
+                            <strong>
+
+                                📍 Location:
+
+                            </strong>
+
+                            {{ job.location }}
+
+                        </div>
+
+
+                        <!-- SALARY -->
+
+                        <div class="job-info">
+
+                            <strong>
+
+                                💰 Salary:
+
+                            </strong>
+
+
+                            {% if job.salary %}
+
+                                {{ job.salary }}
+
+                            {% else %}
+
+                                Not specified
+
+                            {% endif %}
+
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="description">
+
+                            <strong>
+
+                                Description:
+
+                            </strong>
+
+
+                            <br><br>
+
+
+                            {{ job.description }}
+
+                        </div>
+
+
+                        <!-- APPLICANT COUNT -->
+
+                        <div class="applicant-count">
+
+                            👥
+
+                            {{ job.applicant_count }}
+
+                            Applicant{% if job.applicant_count != 1 %}s{% endif %}
+
+                        </div>
+
+
+                        <!-- =================================================
+                             ACTION BUTTONS
+                             ================================================= -->
+
+                        <div class="actions">
+
+
+                            <!-- EDIT -->
+
+                            <a
+                                href="/edit-job/{{ job.id }}"
+                                class="edit-button"
+                            >
+
+                                ✏️ Edit
+
+                            </a>
+
+
+                            <!-- APPLICATIONS -->
+
+                            <a
+                                href="/employer/applications"
+                                class="application-button"
+                            >
+
+                                👥 Applicants
+
+                            </a>
+
+
+                            <!-- DELETE -->
+
+                            <form
+                                action="/delete-job/{{ job.id }}"
+                                method="POST"
+                                class="delete-form"
+
+                                onsubmit="return confirm(
+                                    'Are you sure you want to delete this job?'
+                                );"
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="delete-button"
+                                >
+
+                                    🗑️ Delete Job
+
+                                </button>
+
+                            </form>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <!-- =================================================
+                 NO JOBS
+                 ================================================= -->
+
+            <div class="no-jobs">
+
+
+                <h2>
+
+                    No Jobs Posted Yet
+
+                </h2>
+
+
+                <p>
+
+                    Start by posting your first job opportunity.
+
+                </p>
+
+
+                <a
+                    href="/employer#post-job"
+                    class="post-button"
+                >
+
+                    + Post Your First Job
+
+                </a>
+
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</body>
+
+</html>

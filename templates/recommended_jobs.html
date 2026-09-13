@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Recommended Jobs - JobPortal</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            background: #1e3a8a;
+            color: white;
+
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            font-size: 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+
+            padding: 9px 13px;
+
+            border-radius: 6px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .logout {
+            background: #dc2626;
+        }
+
+        /* CONTAINER */
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+
+            margin: 40px auto;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #1e3a8a;
+
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+        }
+
+        /* JOB GRID */
+
+        .jobs {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+        /* JOB CARD */
+
+        .job-card {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+
+            transition: 0.2s;
+        }
+
+        .job-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .job-title {
+            color: #1e3a8a;
+
+            font-size: 21px;
+
+            margin-bottom: 10px;
+        }
+
+        .company {
+            color: #444;
+
+            margin-bottom: 7px;
+        }
+
+        .location {
+            color: #777;
+
+            margin-bottom: 18px;
+        }
+
+        /* BADGES */
+
+        .details {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-bottom: 18px;
+        }
+
+        .badge {
+            background: #eef2ff;
+
+            color: #3730a3;
+
+            padding: 7px 11px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+        .salary {
+            background: #ecfdf5;
+
+            color: #047857;
+        }
+
+        /* DESCRIPTION */
+
+        .description {
+            color: #666;
+
+            line-height: 1.6;
+
+            margin-bottom: 20px;
+
+            display: -webkit-box;
+
+            -webkit-line-clamp: 3;
+
+            -webkit-box-orient: vertical;
+
+            overflow: hidden;
+        }
+
+        /* BUTTON */
+
+        .view-btn {
+            display: inline-block;
+
+            background: #2563eb;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 10px 17px;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+        }
+
+        .view-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* EMPTY */
+
+        .empty {
+            background: white;
+
+            padding: 55px;
+
+            text-align: center;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .empty h2 {
+            color: #1e3a8a;
+
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            color: #666;
+
+            margin-bottom: 20px;
+        }
+
+        .profile-btn {
+            display: inline-block;
+
+            background: #2563eb;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 12px 20px;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            .jobs {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                flex-direction: column;
+
+                gap: 15px;
+
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+
+                justify-content: center;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+    <h2>JobPortal</h2>
+
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('index') }}">
+            Jobs
+        </a>
+
+        <a href="{{ url_for('applications') }}">
+            Applications
+        </a>
+
+        <a href="{{ url_for('saved_jobs') }}">
+            Saved Jobs
+        </a>
+
+        <a href="{{ url_for('profile') }}">
+            Profile
+        </a>
+
+        <a href="{{ url_for('logout') }}"
+           class="logout">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+    <div class="header">
+
+        <h1>
+            🎯 Recommended Jobs
+        </h1>
+
+        <p>
+            Jobs matched with the skills in your profile.
+        </p>
+
+    </div>
+
+
+    {% if jobs %}
+
+
+        <div class="jobs">
+
+
+            {% for job in jobs %}
+
+
+            <div class="job-card">
+
+
+                <h2 class="job-title">
+
+                    {{ job.title }}
+
+                </h2>
+
+
+                <p class="company">
+
+                    🏢 {{ job.company }}
+
+                </p>
+
+
+                <p class="location">
+
+                    📍 {{ job.location }}
+
+                </p>
+
+
+                <div class="details">
+
+
+                    {% if job.job_type %}
+
+                    <span class="badge">
+
+                        💼 {{ job.job_type }}
+
+                    </span>
+
+                    {% endif %}
+
+
+                    {% if job.experience %}
+
+                    <span class="badge">
+
+                        🎓 {{ job.experience }}
+
+                    </span>
+
+                    {% endif %}
+
+
+                    {% if job.salary %}
+
+                    <span class="badge salary">
+
+                        💰 {{ job.salary }}
+
+                    </span>
+
+                    {% elif job.min_salary or job.max_salary %}
+
+                    <span class="badge salary">
+
+                        💰 ₹{{ job.min_salary }}
+                        -
+                        ₹{{ job.max_salary }}
+
+                    </span>
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <p class="description">
+
+                    {{ job.description }}
+
+                </p>
+
+
+                <a
+                    href="{{ url_for(
+                        'job_details',
+                        job_id=job.id
+                    ) }}"
+                    class="view-btn">
+
+                    View Job →
+
+                </a>
+
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="empty">
+
+            <h2>
+                No Recommended Jobs
+            </h2>
+
+            <p>
+                Add skills to your profile to get job recommendations.
+            </p>
+
+            <a
+                href="{{ url_for('profile') }}"
+                class="profile-btn">
+
+                👤 Update Profile
+
+            </a>
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Post a Job - JobPortal</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #111827;
+            min-height: 100vh;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 6%;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #111827;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #2563eb;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #374151;
+            font-size: 14px;
+            font-weight: 600;
+
+            padding: 10px 14px;
+            border-radius: 7px;
+
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .logout {
+            background: #ef4444 !important;
+            color: white !important;
+        }
+
+        .logout:hover {
+            background: #dc2626 !important;
+        }
+
+
+        /* ================= FLASH MESSAGE ================= */
+
+        .flash-container {
+            position: fixed;
+            top: 85px;
+            right: 25px;
+
+            width: 350px;
+
+            z-index: 9999;
+        }
+
+        .flash {
+            padding: 14px 18px;
+
+            margin-bottom: 10px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .flash-success {
+            background: #dcfce7;
+            color: #166534;
+
+            border-left: 4px solid #22c55e;
+        }
+
+        .flash-danger {
+            background: #fee2e2;
+            color: #991b1b;
+
+            border-left: 4px solid #ef4444;
+        }
+
+        .flash-warning {
+            background: #fef3c7;
+            color: #92400e;
+
+            border-left: 4px solid #f59e0b;
+        }
+
+        .flash-info {
+            background: #dbeafe;
+            color: #1e40af;
+
+            border-left: 4px solid #3b82f6;
+        }
+
+
+        /* ================= PAGE ================= */
+
+        .page {
+            width: 92%;
+            max-width: 1050px;
+
+            margin: 45px auto;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+
+        /* ================= CARD ================= */
+
+        .form-card {
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.07);
+
+            border: 1px solid #e5e7eb;
+        }
+
+
+        /* ================= FORM ================= */
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+
+            margin-bottom: 20px;
+
+            color: #111827;
+        }
+
+        .form-row {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 14px;
+
+            font-weight: 600;
+
+            margin-bottom: 8px;
+
+            color: #374151;
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            padding: 13px 14px;
+
+            font-size: 14px;
+
+            color: #111827;
+
+            background: white;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.1);
+        }
+
+        textarea {
+
+            min-height: 160px;
+
+            resize: vertical;
+
+            line-height: 1.6;
+        }
+
+        .hint {
+
+            font-size: 12px;
+
+            color: #6b7280;
+
+            margin-top: 6px;
+        }
+
+
+        /* ================= SALARY ================= */
+
+        .salary-row {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* ================= BUTTONS ================= */
+
+        .form-actions {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 12px;
+
+            padding-top: 10px;
+
+            border-top:
+                1px solid #e5e7eb;
+        }
+
+        .btn {
+
+            text-decoration: none;
+
+            border: none;
+
+            cursor: pointer;
+
+            padding: 13px 24px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            transition: 0.2s;
+        }
+
+        .cancel-btn {
+
+            background: #f3f4f6;
+
+            color: #374151;
+        }
+
+        .cancel-btn:hover {
+
+            background: #e5e7eb;
+        }
+
+        .submit-btn {
+
+            background: #2563eb;
+
+            color: white;
+        }
+
+        .submit-btn:hover {
+
+            background: #1d4ed8;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* ================= INFO BOX ================= */
+
+        .info-box {
+
+            margin-top: 25px;
+
+            background: #eff6ff;
+
+            border:
+                1px solid #bfdbfe;
+
+            border-radius: 10px;
+
+            padding: 16px 18px;
+
+            color: #1e40af;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+
+            display: block;
+
+            margin-bottom: 5px;
+
+            font-size: 14px;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 800px) {
+
+            nav {
+
+                padding: 0 4%;
+
+            }
+
+            .nav-links a {
+
+                padding: 8px;
+
+            }
+
+            .form-row {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .form-group.full {
+
+                grid-column: auto;
+
+            }
+
+            .salary-row {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .form-card {
+
+                padding: 25px 20px;
+
+            }
+
+            .page-header h1 {
+
+                font-size: 26px;
+
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            nav {
+
+                height: auto;
+
+                min-height: 70px;
+
+                flex-direction: column;
+
+                gap: 10px;
+
+                padding: 15px;
+
+            }
+
+            .nav-links {
+
+                flex-wrap: wrap;
+
+                justify-content: center;
+
+            }
+
+            .flash-container {
+
+                width: calc(100% - 30px);
+
+                right: 15px;
+
+            }
+
+            .form-actions {
+
+                flex-direction: column;
+
+            }
+
+            .btn {
+
+                width: 100%;
+
+                text-align: center;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav>
+
+    <a
+        href="{{ url_for('employer_dashboard') }}"
+        class="logo"
+    >
+        Job<span>Portal</span>
+    </a>
+
+
+    <div class="nav-links">
+
+        <a
+            href="{{ url_for('employer_dashboard') }}"
+        >
+            Dashboard
+        </a>
+
+
+        <a
+            href="{{ url_for('my_jobs') }}"
+        >
+            My Jobs
+        </a>
+
+
+        <a
+            href="{{ url_for('employer_applications') }}"
+        >
+            Applications
+        </a>
+
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="logout"
+        >
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     FLASH MESSAGES
+===================================================== -->
+
+<div class="flash-container">
+
+    {% with messages =
+        get_flashed_messages(
+            with_categories=true
+        )
+    %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div
+                    class="flash flash-{{ category }}"
+                >
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+</div>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<div class="page">
+
+
+    <div class="page-header">
+
+        <h1>
+            Post a New Job
+        </h1>
+
+        <p>
+            Find the right candidate by creating
+            a clear and detailed job posting.
+        </p>
+
+    </div>
+
+
+    <div class="form-card">
+
+
+        <form
+            method="POST"
+            action="{{ url_for('post_job') }}"
+        >
+
+
+            <!-- ================= JOB INFORMATION ================= -->
+
+            <div class="form-section">
+
+                <div class="section-title">
+                    Job Information
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="title">
+
+                            Job Title
+
+                            <span class="required">
+                                *
+                            </span>
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            placeholder="e.g. Python Developer"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="company">
+
+                            Company Name
+
+                            <span class="required">
+                                *
+                            </span>
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="company"
+                            name="company"
+                            placeholder="e.g. ABC Technologies"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="location">
+
+                            Location
+
+                            <span class="required">
+                                *
+                            </span>
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="location"
+                            name="location"
+                            placeholder="e.g. Hyderabad"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="job_type">
+
+                            Job Type
+
+                        </label>
+
+
+                        <select
+                            id="job_type"
+                            name="job_type"
+                        >
+
+                            <option value="Full Time">
+                                Full Time
+                            </option>
+
+                            <option value="Part Time">
+                                Part Time
+                            </option>
+
+                            <option value="Internship">
+                                Internship
+                            </option>
+
+                            <option value="Contract">
+                                Contract
+                            </option>
+
+                            <option value="Remote">
+                                Remote
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="experience">
+
+                            Experience
+
+                        </label>
+
+
+                        <select
+                            id="experience"
+                            name="experience"
+                        >
+
+                            <option value="Fresher">
+                                Fresher
+                            </option>
+
+                            <option value="0-1 Years">
+                                0-1 Years
+                            </option>
+
+                            <option value="1-3 Years">
+                                1-3 Years
+                            </option>
+
+                            <option value="3-5 Years">
+                                3-5 Years
+                            </option>
+
+                            <option value="5+ Years">
+                                5+ Years
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="salary">
+
+                            Salary Display
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="salary"
+                            name="salary"
+                            placeholder="e.g. ₹5 - ₹8 LPA"
+                        >
+
+                        <div class="hint">
+                            This is the salary text displayed to candidates.
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= SALARY ================= -->
+
+            <div class="form-section">
+
+                <div class="section-title">
+                    Salary Range
+                </div>
+
+
+                <div class="salary-row">
+
+
+                    <div class="form-group">
+
+                        <label for="min_salary">
+
+                            Minimum Salary
+
+                        </label>
+
+
+                        <input
+                            type="number"
+                            id="min_salary"
+                            name="min_salary"
+                            placeholder="5"
+                            min="0"
+                            step="0.01"
+                        >
+
+                        <div class="hint">
+                            Enter value in LPA.
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="max_salary">
+
+                            Maximum Salary
+
+                        </label>
+
+
+                        <input
+                            type="number"
+                            id="max_salary"
+                            name="max_salary"
+                            placeholder="8"
+                            min="0"
+                            step="0.01"
+                        >
+
+                        <div class="hint">
+                            Enter value in LPA.
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="salary_preview">
+
+                            Salary Preview
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="salary_preview"
+                            placeholder="₹5 - ₹8 LPA"
+                            readonly
+                        >
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= DESCRIPTION ================= -->
+
+            <div class="form-section">
+
+                <div class="section-title">
+                    Job Description
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="description">
+
+                        Description
+
+                        <span class="required">
+                            *
+                        </span>
+
+                    </label>
+
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="Describe the role, responsibilities, required skills, qualifications and other important details..."
+                        required
+                    ></textarea>
+
+
+                    <div class="hint">
+
+                        Provide enough information so candidates
+                        can understand the position.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= INFO ================= -->
+
+            <div class="info-box">
+
+                <strong>
+                    💡 Job Posting Tip
+                </strong>
+
+                Mention the required technical skills,
+                responsibilities, qualifications and
+                experience clearly. This helps you attract
+                better candidates.
+
+            </div>
+
+
+            <!-- ================= ACTIONS ================= -->
+
+            <div class="form-actions">
+
+
+                <a
+                    href="{{ url_for('employer_dashboard') }}"
+                    class="btn cancel-btn"
+                >
+                    Cancel
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="btn submit-btn"
+                >
+                    Post Job
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+    const minSalary =
+        document.getElementById(
+            "min_salary"
+        );
+
+    const maxSalary =
+        document.getElementById(
+            "max_salary"
+        );
+
+    const salaryPreview =
+        document.getElementById(
+            "salary_preview"
+        );
+
+
+    function updateSalaryPreview() {
+
+        const min =
+            minSalary.value;
+
+        const max =
+            maxSalary.value;
+
+
+        if (min && max) {
+
+            salaryPreview.value =
+                "₹" +
+                min +
+                " - ₹" +
+                max +
+                " LPA";
+
+        }
+
+        else if (min) {
+
+            salaryPreview.value =
+                "₹" +
+                min +
+                "+ LPA";
+
+        }
+
+        else if (max) {
+
+            salaryPreview.value =
+                "Up to ₹" +
+                max +
+                " LPA";
+
+        }
+
+        else {
+
+            salaryPreview.value = "";
+
+        }
+
+    }
+
+
+    minSalary.addEventListener(
+        "input",
+        updateSalaryPreview
+    );
+
+
+    maxSalary.addEventListener(
+        "input",
+        updateSalaryPreview
+    );
+
+
+    /* Auto-hide flash messages */
+
+    setTimeout(
+        function() {
+
+            const messages =
+                document.querySelectorAll(
+                    ".flash"
+                );
+
+
+            messages.forEach(
+                function(message) {
+
+                    message.style.opacity =
+                        "0";
+
+                    message.style.transform =
+                        "translateX(100%)";
+
+                    message.style.transition =
+                        "0.4s ease";
+
+
+                    setTimeout(
+                        function() {
+
+                            message.remove();
+
+                        },
+                        400
+                    );
+
+                }
+            );
+
+        },
+        4000
+    );
+
+</script>
+
+
+</body>
+
+</html>

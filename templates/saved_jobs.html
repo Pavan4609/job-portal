@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Saved Jobs - JobPortal</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        .navbar {
+            background: #1e3a8a;
+            color: white;
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            font-size: 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 9px 13px;
+            border-radius: 6px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .logout {
+            background: #dc2626;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #1e3a8a;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+        }
+
+        .jobs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .job-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+
+            transition: 0.2s;
+        }
+
+        .job-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .job-title {
+            color: #1e3a8a;
+            font-size: 21px;
+            margin-bottom: 10px;
+        }
+
+        .company {
+            color: #444;
+            margin-bottom: 7px;
+        }
+
+        .location {
+            color: #777;
+            margin-bottom: 18px;
+        }
+
+        .details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            background: #eef2ff;
+            color: #3730a3;
+
+            padding: 7px 11px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .salary {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .saved-date {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 7px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+        .view {
+            background: #2563eb;
+            color: white;
+        }
+
+        .view:hover {
+            background: #1d4ed8;
+        }
+
+        .remove {
+            background: #dc2626;
+            color: white;
+        }
+
+        .remove:hover {
+            background: #b91c1c;
+        }
+
+        .empty {
+            background: white;
+
+            padding: 55px;
+
+            text-align: center;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .empty h2 {
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .search-btn {
+            display: inline-block;
+
+            background: #2563eb;
+            color: white;
+
+            text-decoration: none;
+
+            padding: 12px 20px;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+        }
+
+        @media (max-width: 800px) {
+
+            .jobs {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+    <h2>JobPortal</h2>
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('index') }}">
+            Jobs
+        </a>
+
+        <a href="{{ url_for('applications') }}">
+            Applications
+        </a>
+
+        <a href="{{ url_for('profile') }}">
+            Profile
+        </a>
+
+        <a href="{{ url_for('logout') }}"
+           class="logout">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+    <div class="header">
+
+        <h1>
+            ⭐ Saved Jobs
+        </h1>
+
+        <p>
+            Jobs you saved for later.
+        </p>
+
+    </div>
+
+
+    {% if jobs %}
+
+
+        <div class="jobs">
+
+
+            {% for job in jobs %}
+
+
+            <div class="job-card">
+
+
+                <h2 class="job-title">
+                    {{ job.title }}
+                </h2>
+
+
+                <p class="company">
+                    🏢 {{ job.company }}
+                </p>
+
+
+                <p class="location">
+                    📍 {{ job.location }}
+                </p>
+
+
+                <div class="details">
+
+
+                    {% if job.job_type %}
+
+                    <span class="badge">
+                        💼 {{ job.job_type }}
+                    </span>
+
+                    {% endif %}
+
+
+                    {% if job.experience %}
+
+                    <span class="badge">
+                        🎓 {{ job.experience }}
+                    </span>
+
+                    {% endif %}
+
+
+                    {% if job.salary %}
+
+                    <span class="badge salary">
+                        💰 {{ job.salary }}
+                    </span>
+
+                    {% elif job.min_salary or job.max_salary %}
+
+                    <span class="badge salary">
+                        💰 ₹{{ job.min_salary }}
+                        -
+                        ₹{{ job.max_salary }}
+                    </span>
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <p class="saved-date">
+
+                    ⭐ Saved on:
+                    {{ job.saved_at }}
+
+                </p>
+
+
+                <div class="actions">
+
+
+                    <a
+                        href="{{ url_for(
+                            'job_details',
+                            job_id=job.id
+                        ) }}"
+                        class="btn view">
+
+                        View Job →
+
+                    </a>
+
+
+                    <form
+                        method="POST"
+                        action="{{ url_for(
+                            'remove_saved_job',
+                            job_id=job.id
+                        ) }}"
+                        style="display:inline;">
+
+                        <button
+                            type="submit"
+                            class="btn remove">
+
+                            Remove
+
+                        </button>
+
+                    </form>
+
+
+                </div>
+
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="empty">
+
+            <h2>
+                No Saved Jobs
+            </h2>
+
+            <p>
+                You haven't saved any jobs yet.
+            </p>
+
+            <a
+                href="{{ url_for('index') }}"
+                class="search-btn">
+
+                🔍 Find Jobs
+
+            </a>
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+
+</body>
+
+</html>

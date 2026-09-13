@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Applications - JobPortal</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            background: #172554;
+            color: white;
+
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            font-size: 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+
+            padding: 9px 13px;
+
+            border-radius: 6px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .logout {
+            background: #dc2626;
+        }
+
+        /* CONTAINER */
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+
+            margin: 40px auto;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            color: #172554;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #666;
+        }
+
+        /* APPLICATION CARD */
+
+        .application-card {
+            background: white;
+
+            padding: 25px;
+
+            margin-bottom: 20px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .top-section {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            gap: 20px;
+
+            margin-bottom: 20px;
+        }
+
+        .applicant-name {
+            font-size: 21px;
+
+            color: #172554;
+
+            margin-bottom: 7px;
+        }
+
+        .email {
+            color: #666;
+
+            margin-bottom: 8px;
+        }
+
+        .job-title {
+            color: #333;
+
+            font-weight: bold;
+        }
+
+        .company {
+            color: #666;
+
+            margin-top: 5px;
+        }
+
+        /* STATUS */
+
+        .status-box {
+            text-align: right;
+        }
+
+        .status-label {
+            display: block;
+
+            color: #666;
+
+            font-size: 13px;
+
+            margin-bottom: 6px;
+        }
+
+        select {
+            padding: 9px 12px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            background: white;
+        }
+
+        .update-btn {
+            margin-top: 8px;
+
+            background: #2563eb;
+
+            color: white;
+
+            border: none;
+
+            padding: 9px 15px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .update-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* DETAILS */
+
+        .details {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            background: #eef2ff;
+
+            color: #3730a3;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+        }
+
+        /* BOTTOM */
+
+        .bottom-section {
+            border-top: 1px solid #e5e7eb;
+
+            padding-top: 18px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        .date {
+            color: #777;
+
+            font-size: 14px;
+        }
+
+        .resume-btn {
+            background: #16a34a;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 10px 16px;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+        }
+
+        .resume-btn:hover {
+            background: #15803d;
+        }
+
+        .no-applications {
+            background: white;
+
+            padding: 50px;
+
+            text-align: center;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .no-applications h2 {
+            color: #172554;
+
+            margin-bottom: 10px;
+        }
+
+        .no-applications p {
+            color: #666;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 750px) {
+
+            .navbar {
+                flex-direction: column;
+
+                gap: 15px;
+
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+
+                justify-content: center;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .top-section {
+                flex-direction: column;
+            }
+
+            .status-box {
+                text-align: left;
+            }
+
+            .bottom-section {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+    <h2>JobPortal</h2>
+
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('employer') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('my_jobs') }}">
+            My Jobs
+        </a>
+
+        <a href="{{ url_for('post_job') }}">
+            Post Job
+        </a>
+
+        <a href="{{ url_for('logout') }}"
+           class="logout">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+    <div class="page-header">
+
+        <h1>
+            Job Applications
+        </h1>
+
+        <p>
+            Review candidates and manage their application status.
+        </p>
+
+    </div>
+
+
+    {% if applications %}
+
+
+        {% for application in applications %}
+
+
+        <div class="application-card">
+
+
+            <!-- TOP -->
+
+            <div class="top-section">
+
+
+                <div>
+
+                    <h2 class="applicant-name">
+
+                        👤 {{ application.full_name }}
+
+                    </h2>
+
+
+                    <p class="email">
+
+                        📧 {{ application.email }}
+
+                    </p>
+
+
+                    <p class="job-title">
+
+                        💼 {{ application.title }}
+
+                    </p>
+
+
+                    <p class="company">
+
+                        🏢 {{ application.company }}
+
+                    </p>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="status-box">
+
+                    <span class="status-label">
+                        Application Status
+                    </span>
+
+
+                    <form
+                        method="POST"
+                        action="{{ url_for(
+                            'update_application_status',
+                            application_id=application.id
+                        ) }}"
+                    >
+
+                        <select name="status">
+
+                            <option value="Applied"
+                                {% if application.status == "Applied" %}
+                                selected
+                                {% endif %}>
+                                Applied
+                            </option>
+
+                            <option value="Under Review"
+                                {% if application.status == "Under Review" %}
+                                selected
+                                {% endif %}>
+                                Under Review
+                            </option>
+
+                            <option value="Shortlisted"
+                                {% if application.status == "Shortlisted" %}
+                                selected
+                                {% endif %}>
+                                Shortlisted
+                            </option>
+
+                            <option value="Interview"
+                                {% if application.status == "Interview" %}
+                                selected
+                                {% endif %}>
+                                Interview
+                            </option>
+
+                            <option value="Selected"
+                                {% if application.status == "Selected" %}
+                                selected
+                                {% endif %}>
+                                Selected
+                            </option>
+
+                            <option value="Rejected"
+                                {% if application.status == "Rejected" %}
+                                selected
+                                {% endif %}>
+                                Rejected
+                            </option>
+
+                        </select>
+
+
+                        <br>
+
+
+                        <button
+                            type="submit"
+                            class="update-btn">
+
+                            Update Status
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- DETAILS -->
+
+            <div class="details">
+
+
+                <span class="badge">
+
+                    📍 {{ application.location }}
+
+                </span>
+
+
+                <span class="badge">
+
+                    🆔 Application #{{ application.id }}
+
+                </span>
+
+
+            </div>
+
+
+            <!-- BOTTOM -->
+
+            <div class="bottom-section">
+
+
+                <div class="date">
+
+                    📅 Applied:
+
+                    {{ application.applied_at }}
+
+                </div>
+
+
+                {% if application.resume %}
+
+                    <a
+                        href="{{ url_for(
+                            'view_resume',
+                            filename=application.resume
+                        ) }}"
+                        class="resume-btn"
+                        target="_blank">
+
+                        📄 View Resume
+
+                    </a>
+
+                {% else %}
+
+                    <span class="date">
+
+                        Resume not uploaded
+
+                    </span>
+
+                {% endif %}
+
+
+            </div>
+
+
+        </div>
+
+
+        {% endfor %}
+
+
+    {% else %}
+
+
+        <div class="no-applications">
+
+            <h2>
+                No Applications Yet
+            </h2>
+
+            <p>
+                Candidates have not applied to your jobs yet.
+            </p>
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+
+</body>
+
+</html>
