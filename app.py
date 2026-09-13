@@ -85,27 +85,15 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 def get_db_connection():
 
-    return mysql.connector.connect(
-
-        host=os.getenv(
-            "MYSQL_HOST",
-            "localhost"
-        ),
-
-        user=os.getenv(
-            "MYSQL_USER",
-            "root"
-        ),
-
-        password=os.getenv(
-            "MYSQL_PASSWORD"
-        ),
-
-        database=os.getenv(
-            "MYSQL_DATABASE",
-            "jobportal"
-        )
-    )
+return mysql.connector.connect(
+    host=os.getenv("MYSQL_HOST"),
+    port=int(os.getenv("MYSQL_PORT")),
+    user=os.getenv("MYSQL_USER"),
+    password=os.getenv("MYSQL_PASSWORD"),
+    database=os.getenv("MYSQL_DATABASE"),
+    ssl_disabled=False,
+    connection_timeout=10
+)
 
 
 # =========================================================
